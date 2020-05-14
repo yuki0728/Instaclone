@@ -1,12 +1,16 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
-    <%= link_to "Insta Clone", "", id: "logo" %>
+    <%= link_to "Insta Clone", root_path, id: "logo" %>
     <nav>
       <ul class="nav navbar-nav navbar-right">
-        <li><%= link_to "検索フォーム予定"%></li>
-        <li><%= link_to "通知", "" %></li>
-        <li><%= link_to "マイページ", "" %></li>
-        <li><%= link_to "ログイン", "" %></li>
+        <% if logged_in? %>
+          <li><%= link_to "検索フォーム予定"%></li>
+          <li><%= link_to "通知", "" %></li>
+          <li><%= link_to "マイページ", "" %></li>
+          <li><%= link_to "ログアウト", logout_path, method: :delete %>
+        <% else %>
+          <li><%= link_to "ログイン", login_path %></li>
+        <% end %>
       </ul>
     </nav>
   </div>
