@@ -1,12 +1,11 @@
 class User < ApplicationRecord
   attr_accessor :activation_token
 
-  validates :name, presence: true, length: { maximum: 50 }
-
   before_save   :downcase_email
   before_create :create_activation_digest
-
   before_save { self.email = email.downcase }
+
+  mount_uploader :image, ImageUploader
 
   # 名前のバリテーション
   validates :name, :user_name, presence: true, length: { maximum: 50 }
