@@ -16,6 +16,8 @@ gem 'bootstrap-sass', '~> 3.4.1'
 gem 'bcrypt'
 gem 'carrierwave'
 gem 'rmagick'
+gem 'will_paginate'
+gem 'bootstrap-will_paginate'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.6.0'

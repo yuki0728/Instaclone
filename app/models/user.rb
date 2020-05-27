@@ -1,6 +1,11 @@
 class User < ApplicationRecord
   has_many :posts, dependent: :destroy
 
+  has_many :active_relationships, class_name: "Relationship", foreign_key: :following_id
+  has_many :followings, through: :active_relationships, source: :follower
+  has_many :passive_relationships, class_name: "Relationship", foreign_key: :follower_id
+  has_many :followers, through: :passive_relationships, source: :following
+
   attr_accessor :activation_token
 
   before_save   :downcase_email
@@ -33,6 +38,21 @@ class User < ApplicationRecord
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                   BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
+  end
+
+  # ユーザーのステータスフィードを返す
+  def feed
+    Post.where("user_id IN (?) OR user_id = ?", following_ids, id)
+  end
+
+  # ユーザーをフォローする
+  def follow(other_user)
+    followings << other_user
+  end
+
+  # 自分がフォローしているかを調べる
+  def followed_by?(user)
+    passive_relationships.find_by(followed_id: user.id).present?
   end
 
   private
