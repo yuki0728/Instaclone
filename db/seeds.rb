@@ -30,10 +30,12 @@ User.create!(
   )
 end
 
-users = User.order(:created_at).take(6)
-50.times do
+FileUtils.rm_rf("#{Rails.root}/public/uploads/post")
+users = User.order(:created_at).take(3)
+0.upto(4) do |n|
   text = Faker::Lorem.sentence(5)
-  users.each { |user| user.posts.create!(text: text) }
+  image = open("#{Rails.root}/db/fixtures/images/sample#{n%4}.jpg")
+  users.each { |user| user.posts.create!(text: text, img:image) }
 end
 
 # リレーションシップ

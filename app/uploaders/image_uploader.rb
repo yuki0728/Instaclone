@@ -2,6 +2,13 @@ class ImageUploader < CarrierWave::Uploader::Base
   # リサイズしたり画像形式を変更するのに必要
   include CarrierWave::RMagick
 
+  # 開発環境と本番環境で保存先を分ける
+  if Rails.env.production?
+    storage :fog
+  else
+    storage :file
+  end
+
   # 画像の上限を700pxにする
   process :resize_to_limit => [700, 700]
 
@@ -23,5 +30,9 @@ class ImageUploader < CarrierWave::Uploader::Base
     time = Time.now
     name = time.strftime('%Y%m%d%H%M%S') + '.jpg'
     name.downcase
+  end
+
+  def store_dir
+    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
 end
