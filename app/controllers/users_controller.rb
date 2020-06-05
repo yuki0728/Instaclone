@@ -15,16 +15,18 @@ class UsersController < ApplicationController
     end
   end
 
-  # 自分がフォローしているユーザ
+  # 自分がフォローしているユーザの一覧
   def following
     @user  = User.find(params[:id])
-    @users = @user.following.paginate(page: params[:page])
+    @users = @user.followings.paginate(page: params[:page])
+    render 'show_follow'
   end
 
-  # 自分をフォローしているユーザ
+  # 自分をフォローしているユーザの一覧
   def followers
     @user  = User.find(params[:id])
-    @users = @user.following.paginate(page: params[:page])
+    @users = @user.followers.paginate(page: params[:page])
+    render 'show_follow'
   end
 
   private

@@ -57,6 +57,11 @@ class User < ApplicationRecord
 
   private
 
+  def user_params
+    params.require(:user).permit(:name, :email, :password,
+                                :password_confirmation)
+  end
+
   # メールアドレスをすべて小文字にする
   def downcase_email
     self.email = email.downcase
