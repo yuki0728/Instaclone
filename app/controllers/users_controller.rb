@@ -15,6 +15,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def show
+    @user = User.find(params[:id])
+    @posts = @user.posts.paginate(page: params[:page])
+  end
+
   # 自分がフォローしているユーザの一覧
   def following
     @user  = User.find(params[:id])

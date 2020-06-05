@@ -50,9 +50,13 @@ class User < ApplicationRecord
     followings << other_user
   end
 
+  def unfollow(other_user)
+    active_relationships.find_by(follower_id: other_user.id).destroy
+  end
+
   # 自分がフォローしているかを調べる
   def followed_by?(user)
-    passive_relationships.find_by(followed_id: user.id).present?
+    passive_relationships.find_by(following_id: user.id).present?
   end
 
   private
