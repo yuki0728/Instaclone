@@ -1,0 +1,9 @@
+<%= form_for (@post), url:post_path do |f| %>
+  <%= f.label :画像 %><br />
+  <%= f.file_field :img, class: "image" %>
+
+  <%= f.label :コメント %>
+  <%= f.text_field :text, class: 'form-control' %>
+
+  <%= f.submit %>
+<% end %>
